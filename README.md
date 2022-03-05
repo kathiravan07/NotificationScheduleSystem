@@ -1,4 +1,4 @@
-# NotificationScheduleSystem
+# NotificationScheduleSystem Devloped By .Net 5
 NotificationScheduleSystem Web API for notification tracking
 
 Code First approch 
