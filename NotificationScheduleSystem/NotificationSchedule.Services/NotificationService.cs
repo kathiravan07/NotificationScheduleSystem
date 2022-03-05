@@ -32,34 +32,32 @@ namespace NotificationSchedule.Services
         /// <exception cref="Exception"></exception>
         public string CreateNotification(NotificationDTO notificationDTO)
         {
-            using (TransactionScope scope = new(TransactionScopeAsyncFlowOption.Enabled))
+            using TransactionScope scope = new(TransactionScopeAsyncFlowOption.Enabled);
+            try
             {
-                try
+                switch (notificationDTO.Market)
                 {
-                    switch (notificationDTO.Market)
-                    {
-                        case "Denmark":
-                            string response = NotificationCreate(notificationDTO, 5);
-                            break;
-                        case "Norway":
-                            NorwayNotificationCreate(notificationDTO, 4);
-                            break;
-                        case "Sweden":
-                            SwedenNotificationCreate(notificationDTO, 4);
-                            break;
-                        case "Finland":
-                            NotificationCreate(notificationDTO, 5);
-                            break;
-                    }
-                    scope.Complete();
-                    return Notification_Message;
+                    case "Denmark":
+                        string response = NotificationCreate(notificationDTO, 5);
+                        break;
+                    case "Norway":
+                        NorwayNotificationCreate(notificationDTO, 4);
+                        break;
+                    case "Sweden":
+                        SwedenNotificationCreate(notificationDTO, 4);
+                        break;
+                    case "Finland":
+                        NotificationCreate(notificationDTO, 5);
+                        break;
                 }
-                catch (Exception ex)
-                {
-                    scope.Dispose();
-                    logger.LogError("Create Notification Service unsuccessful Request", ex.Message);
-                    throw new Exception(ex.Message, ex);
-                }
+                scope.Complete();
+                return Notification_Message;
+            }
+            catch (Exception ex)
+            {
+                scope.Dispose();
+                logger.LogError("Create Notification Service unsuccessful Request", ex.Message);
+                throw new Exception(ex.Message, ex);
             }
 
         }

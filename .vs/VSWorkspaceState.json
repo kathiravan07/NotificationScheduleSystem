@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\NotificationScheduleSystem",
+    "\\NotificationScheduleSystem\\NotificationScheduleSystem"
   ],
-  "SelectedNode": "\\C:\\Users\\R.L.L.K.KATHIRAVAN\\Music\\NotificationScheduleSystem",
+  "SelectedNode": "\\NotificationScheduleSystem\\NotificationScheduleSystem\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }

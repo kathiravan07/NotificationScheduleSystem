@@ -67,7 +67,7 @@ namespace NotificationScheduleSystem.Controllers
         [Produces("application/json")]
         [HttpPost]
         [Route("Create-Company")]
-        [ProducesResponseType(StatusCodes.Status200OK,Type = typeof(CompanyDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CompanyDTO))]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyDTO companyDTO)
         {
             try

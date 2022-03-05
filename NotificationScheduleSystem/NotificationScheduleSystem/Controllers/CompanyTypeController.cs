@@ -21,7 +21,7 @@ namespace NotificationScheduleSystem.API.Controllers
         }
 
         [HttpGet("GetAll-CompanyType")]
-        
+
         public async Task<IActionResult> GetAllCompanyType()
         {
             try
