@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "c2da62bd-8f37-4ab4-b2b5-67c52cb595b1": {
+      "ProjectGuid": "c2da62bd-8f37-4ab4-b2b5-67c52cb595b1",
+      "DisplayName": "NotificationScheduleSystem.API",
+      "ColorIndex": 0
+    },
+    "04ffd07c-7cac-47b4-9289-b0d88f6a4290": {
+      "ProjectGuid": "04ffd07c-7cac-47b4-9289-b0d88f6a4290",
+      "DisplayName": "NotificationSchedule.Contracts",
+      "ColorIndex": 1
+    },
+    "1cf8d4cf-b687-485d-9afd-7e9131c4924f": {
+      "ProjectGuid": "1cf8d4cf-b687-485d-9afd-7e9131c4924f",
+      "DisplayName": "NotificationSchedule.Services",
+      "ColorIndex": 2
+    },
+    "fd21907d-eb25-4dc8-85b9-69be86fa5e2f": {
+      "ProjectGuid": "fd21907d-eb25-4dc8-85b9-69be86fa5e2f",
+      "DisplayName": "NotificationSystem.infrastructure",
+      "ColorIndex": 3
+    },
+    "4f83ca28-406e-49c8-af33-16286a364c17": {
+      "ProjectGuid": "4f83ca28-406e-49c8-af33-16286a364c17",
+      "DisplayName": "Notification.DataAccess",
+      "ColorIndex": 4
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 5
+}
