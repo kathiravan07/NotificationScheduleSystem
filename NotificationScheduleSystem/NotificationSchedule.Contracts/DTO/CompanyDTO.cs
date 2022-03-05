@@ -10,7 +10,8 @@ namespace NotificationSchedule.Contracts.DTO
         [Required]
         [StringLength(200)]
         public string CompanyName { get; set; }
-        public long CompanyNumber { get; set; }
+        //TODO:Its auto generate in service side
+        public long? CompanyNumber { get; set; }
         [Required]
         public int CompanyTypeId { get; set; }
         [Required]

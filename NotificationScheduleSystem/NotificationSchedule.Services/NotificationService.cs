@@ -30,28 +30,35 @@ namespace NotificationSchedule.Services
         /// <param name="notificationDTO"></param>
         /// <returns>Return response string</returns>
         /// <exception cref="Exception"></exception>
-        public string CreateNotification(NotificationDTO notificationDTO)
+        public NotificationResponseDTO CreateNotification(NotificationDTO notificationDTO)
         {
             using TransactionScope scope = new(TransactionScopeAsyncFlowOption.Enabled);
             try
             {
+                string response; string[] scheduleDates = default;
+
                 switch (notificationDTO.Market)
                 {
                     case "Denmark":
-                        string response = NotificationCreate(notificationDTO, 5);
+                        (response, scheduleDates) = NotificationCreate(notificationDTO, 5);
                         break;
                     case "Norway":
-                        NorwayNotificationCreate(notificationDTO, 4);
+                        (response, scheduleDates) = NorwayNotificationCreate(notificationDTO, 4);
                         break;
                     case "Sweden":
-                        SwedenNotificationCreate(notificationDTO, 4);
+                        (response, scheduleDates) = SwedenNotificationCreate(notificationDTO, 4);
                         break;
                     case "Finland":
-                        NotificationCreate(notificationDTO, 5);
+                        (response, scheduleDates) = NotificationCreate(notificationDTO, 5);
                         break;
                 }
                 scope.Complete();
-                return Notification_Message;
+                NotificationResponseDTO notificationResponseDTO = new()
+                {
+                    CompanyId = notificationDTO.CompanyId,
+                    Notifications = scheduleDates
+                };
+                return notificationResponseDTO;
             }
             catch (Exception ex)
             {
@@ -71,7 +78,7 @@ namespace NotificationSchedule.Services
         {
             try
             {
-                var notifications = await genericRepository.GetAsync(x => x.CompanyId == id);
+                var notifications = await genericRepository.GetAsync(x => x.CompanyId == id && x.IsSent);
                 NotificationResponseDTO notificationResponseDTO = null;
                 if (notifications != null)
                 {
@@ -92,62 +99,73 @@ namespace NotificationSchedule.Services
         }
 
         #region Private Methods
-        private string NotificationCreate(NotificationDTO notificationDTO, int dateRange)
+        private (string, string[]) NotificationCreate(NotificationDTO notificationDTO, int dateRange)
         {
+            string[] notificationDate = default;
             if (notificationDTO.Market.ToLower() == "denmark" || (notificationDTO.Market.ToLower() == "finland" && notificationDTO.CompanyType.ToLower() == "large"))
             {
+                notificationDate = new string[5];
                 for (int i = 0; i < dateRange; i++)
                 {
                     int dateAdd = i == 0 ? 1 : i == 1 ? 5 : i == 2 ? 10 : i == 3 ? 15 : i == 4 ? 20 : 0;
-                    NotificationInsert(notificationDTO, dateAdd, true);
+                    DateTime addDate = notificationDTO.CallDate.AddDays(dateAdd);
+                    notificationDate[i] = addDate.ToString("dd/MM/yyyy");
+                    NotificationInsert(notificationDTO, addDate, true);
                 }
             }
             else if (notificationDTO.Market.ToLower() == "finland" && notificationDTO.CompanyType.ToLower() != "large")
             {
-                NotificationInsert(notificationDTO, 0, false);
+                NotificationInsert(notificationDTO, DateTime.Now, false);
             }
-            return SUCCCESS_MESSAGE;
+            return (SUCCCESS_MESSAGE, notificationDate);
         }
 
-        private string NorwayNotificationCreate(NotificationDTO notificationDTO, int dateRange)
+        private (string, string[]) NorwayNotificationCreate(NotificationDTO notificationDTO, int dateRange)
         {
-
+            string[] notificationDate = new string[4];
             for (int i = 0; i < dateRange; i++)
             {
                 int dateAdd = i == 0 ? 1 : i == 1 ? 5 : i == 2 ? 10 : i == 3 ? 20 : 0;
-                NotificationInsert(notificationDTO, dateAdd, true);
+                DateTime addDate = notificationDTO.CallDate.AddDays(dateAdd);
+                notificationDate[i] = addDate.ToString("dd/MM/yyyy");
+                NotificationInsert(notificationDTO, addDate, true);
             }
-            return SUCCCESS_MESSAGE;
+            return (SUCCCESS_MESSAGE, notificationDate);
         }
 
-        private string SwedenNotificationCreate(NotificationDTO notificationDTO, int dateRange)
+        private (string, string[]) SwedenNotificationCreate(NotificationDTO notificationDTO, int dateRange)
         {
+            string[] notificationDate = default;
             if (notificationDTO.CompanyType.ToLower() == "large")
             {
+                notificationDate = new string[4];
                 for (int i = 0; i < dateRange; i++)
                 {
                     int dateAdd = i == 0 ? 1 : i == 1 ? 7 : i == 2 ? 14 : i == 3 ? 28 : 0;
-                    NotificationInsert(notificationDTO, dateAdd, true);
+                    DateTime addDate = notificationDTO.CallDate.AddDays(dateAdd);
+                    notificationDate[i] = addDate.ToString("dd/MM/yyyy");
+                    NotificationInsert(notificationDTO, addDate, true);
                 }
             }
             else
             {
-                NotificationInsert(notificationDTO, 0, false);
+                NotificationInsert(notificationDTO, DateTime.Now, false);
             }
 
-            return SUCCCESS_MESSAGE;
+            return (SUCCCESS_MESSAGE, notificationDate);
         }
 
-        private void NotificationInsert(NotificationDTO notificationDTO, int dateAdd, bool IsSent)
+        private Guid NotificationInsert(NotificationDTO notificationDTO, DateTime dateAdd, bool IsSent)
         {
             CompanyNotification companyNotification = new()
             {
                 CompanyId = notificationDTO.CompanyId,
-                SendDate = notificationDTO.CallDate.AddDays(dateAdd),
+                SendDate = dateAdd,
                 IsSent = IsSent
             };
-            genericRepository.Insert(companyNotification);
+            var response = genericRepository.Insert(companyNotification);
             genericRepository.Save();
+            return response.CompanyId;
         }
         #endregion
 

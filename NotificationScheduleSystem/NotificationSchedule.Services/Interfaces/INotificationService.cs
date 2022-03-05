@@ -6,7 +6,7 @@ namespace NotificationSchedule.Services.Interfaces
 {
     public interface INotificationService
     {
-        string CreateNotification(NotificationDTO notificationDTO);
+        NotificationResponseDTO CreateNotification(NotificationDTO notificationDTO);
         Task<NotificationResponseDTO> GetNotification(Guid id);
     }
 }

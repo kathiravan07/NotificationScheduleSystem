@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\NotificationScheduleSystem",
-    "\\NotificationScheduleSystem\\NotificationScheduleSystem"
+    "\\NotificationScheduleSystem\\NotificationSchedule.Services",
+    "\\NotificationScheduleSystem\\NotificationScheduleSystem",
+    "\\NotificationScheduleSystem\\NotificationScheduleSystem\\Controllers"
   ],
-  "SelectedNode": "\\NotificationScheduleSystem\\NotificationScheduleSystem\\appsettings.json",
+  "SelectedNode": "\\NotificationScheduleSystem\\NotificationScheduleSystem.sln",
   "PreviewInSolutionExplorer": false
 }
