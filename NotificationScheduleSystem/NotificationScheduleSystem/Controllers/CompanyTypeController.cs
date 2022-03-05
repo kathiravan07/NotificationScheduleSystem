@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NotificationSchedule.Contracts.DTO;
@@ -21,7 +21,7 @@ namespace NotificationScheduleSystem.API.Controllers
         }
 
         [HttpGet("GetAll-CompanyType")]
-        [ResponseCache(VaryByHeader = "User-Agent", Duration = 30)]
+        
         public async Task<IActionResult> GetAllCompanyType()
         {
             try
